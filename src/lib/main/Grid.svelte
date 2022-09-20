@@ -1,0 +1,14 @@
+<script>
+	import Row from "$lib/main/Row.svelte";
+	export let rows;
+    export let size;
+
+</script>
+
+<div class="flex justify-center">
+	<span class="grid justify-center shadow-xl rounded-md gap-5 bg-white p-5">
+		{#each rows as row}
+			<Row arr={row}></Row>
+		{/each}
+	</span>
+</div>
