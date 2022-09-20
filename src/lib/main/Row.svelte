@@ -3,7 +3,7 @@
     export let arr;
 </script>
 
-<div class="flex gap-5">
+<div class="flex gap-2">
     {#each arr as item}
         <RowItem item={item}></RowItem>
     {/each}

@@ -6,9 +6,9 @@
 		return Math.floor(Math.random() * 4);
 	}
 	let block = []
-	for(let i = 0; i < 7; i++){
+	for(let i = 0; i < 30; i++){
 		let arr = []
-		for(let i = 0; i < 7; i++){
+		for(let i = 0; i < 30; i++){
 			let ran = random()
 			if(ran == 1){
 				arr.push("o")
@@ -31,7 +31,7 @@
 				"c",
 				"c",
 				"c",
-				"c",
+				"p-u",
 				"c"
 			],
 			[
