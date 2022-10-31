@@ -8,7 +8,7 @@
 <div class="flex justify-center">
 	<span class="grid justify-center shadow-xl rounded-md gap-2 bg-white p-5">
 		{#each rows as row}
-			<Row arr={row}></Row>
+			<Row size={size} arr={row}></Row>
 		{/each}
 	</span>
 </div>

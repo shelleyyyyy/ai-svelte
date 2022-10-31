@@ -10,7 +10,7 @@
     } from "svelte-ionicons";
 
     // get grid diminseions
-    let diminsions = 30
+    export let diminsions
 
     export let item;
     let calc = 48/diminsions;
