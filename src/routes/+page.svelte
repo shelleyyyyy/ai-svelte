@@ -27,7 +27,7 @@
 					"c",
 					"o",
 					"p-r",
-					"a",
+					"o",
 					"p-d",
 					"p-l"
 				],
@@ -67,6 +67,51 @@
 					"p-d",
 					"p-l"
 				],
+				[
+					"o",
+					"c",
+					"o",
+					"g",
+					"p-r",
+					"p-d",
+					"p-l"
+				],
+				[
+					"o",
+					"c",
+					"o",
+					"g",
+					"p-r",
+					"p-d",
+					"p-l"
+				],
+				[
+					"o",
+					"c",
+					"o",
+					"g",
+					"p-r",
+					"p-d",
+					"p-l"
+				],
+				[
+					"o",
+					"c",
+					"o",
+					"g",
+					"p-r",
+					"p-d",
+					"p-l"
+				],
+				[
+					"o",
+					"c",
+					"o",
+					"g",
+					"p-r",
+					"p-d",
+					"p-l"
+				],
 			],
 			sequince: [
 				"l",
@@ -80,12 +125,14 @@
 				'm',
 				'm',
 				'm',
+				'r',
 				'm',
 				'm',
 			],
 			x: 0,
 			y: 0,
 			dir: 1,
+			size: 50,
 	}
 
 	let sequince = data.sequince;
@@ -115,8 +162,36 @@
 		size = 10
 	}
 
-
-	
+	function move(){
+		switch(dir){
+			case 0:
+				// move up
+				console.log("up")
+				local_grid[x][y] = "p-u"
+				x -= 1
+				break;
+			case 1:
+				// move right
+				console.log("right")
+				local_grid[x][y] = "p-r"
+				y += 1
+				break;
+			case 2:
+				// move down
+				console.log("down")
+				local_grid[x][y] = "p-d"
+				x += 1
+				break;
+			case 3:
+				// move left
+				console.log("left")
+				local_grid[x][y] = "p-l"
+				y -= 1
+				break;
+		}
+		local_grid[x][y] = "a"
+		
+	}
 
 	async function run(){
 		for(let i = 0; i < sequince.length; i++){
@@ -139,34 +214,9 @@
 					break;
 				case "m":
 					// move forward
-					switch(dir){
-						case 0:
-							// move up
-							console.log("up")
-							local_grid[x][y] = "p-u"
-							x -= 1
-							break;
-						case 1:
-							// move right
-							console.log("right")
-							local_grid[x][y] = "p-r"
-							y += 1
-							break;
-						case 2:
-							// move down
-							console.log("down")
-							local_grid[x][y] = "p-d"
-							x += 1
-							break;
-						case 3:
-							// move left
-							console.log("left")
-							local_grid[x][y] = "p-l"
-							y -= 1
-							break;
-					}
-					local_grid[x][y] = "a"
+					move()
 					break;
+					
 			}
 		}
 	}
@@ -175,14 +225,14 @@
 		run();
 	}
 
-	let name = 10;
+	let name = data.size;
 </script>
 
 <h1 class="text-center text-6xl my-10">TRICK AGENT WORLD</h1>
 
 <div class="flex justify-center">
-	<div class="w-96">
-		<div class="p-5 grid grid-cols-2 h-40 gap-3">
+	<div class="w-96 border-1 border-black">
+		<div class="p-5 grid grid-cols-2 h-40 gap-3 ">
 			<div class="flex justify-center">
 				<button  class="w-36 py-5 my-5 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" on:click={pleaseWork}>Run</button>
 			</div>
@@ -191,8 +241,12 @@
 			</div>
 		</div>
 		<div>
-			<h1>input grid size </h1>
-			<input bind:value={name}>
+			<!-- input grid size text input -->
+			<div class="grid justify-center">
+				<!-- label -->
+				<h1 for="gridSize" class="text-2xl text-center">Grid Size</h1>
+				<input type="text" class="w-36 py-5 my-5 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" bind:value={size}>
+			</div>
 		</div>
 	</div>
 	<div>
