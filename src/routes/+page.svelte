@@ -2,6 +2,7 @@
 import Row from "$lib/main/Row.svelte";
 import Grid from "$lib/main/Grid.svelte";
 import { GridSharp } from "svelte-ionicons";
+import axios from 'axios'
 
 	// const random = () => {
 	// 	return Math.floor(Math.random() * 4);
@@ -235,6 +236,23 @@ import { GridSharp } from "svelte-ionicons";
 	// let size = grid.size
 
 	// grid.rows = block
+
+	function runSimulation(trucks, blocks, goals, gridsize) {
+
+		axios.post('/data', {
+			
+			"trucks": trucks,
+			"blocks": blocks,
+			"goals": goals,
+			"gridsize": gridsize
+		})
+		.then(function (response) {
+			console.log(response);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+	}
 
 	
 	let rows = stuff.grids[0].rows
