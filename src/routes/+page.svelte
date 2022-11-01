@@ -1,120 +1,45 @@
 <script>
-import Row from "$lib/main/Row.svelte";
-import Grid from "$lib/main/Grid.svelte";
-import { GridSharp } from "svelte-ionicons";
-import axios from 'axios'
-
+	import Row from "$lib/main/Row.svelte";
 	import Grid from "$lib/main/Grid.svelte";
+	import { GridSharp } from "svelte-ionicons";
+	import axios from 'axios'
 	
 	const data = {
 			grid: [
 				[
-					"a",
 					"c",
 					"c",
 					"c",
 					"c",
-					"p-u",
 					"c"
 				],
 				[
-					"o",
 					"c",
-					"o",
-					"p-u",
-					"p-r",
-					"p-d",
-					"p-l"
+					"c",
+					"c",
+					"c",
+					"c"
 				],
 				[
-					"o",
 					"c",
-					"o",
-					"p-r",
-					"o",
-					"p-d",
-					"p-l"
+					"c",
+					"c",
+					"c",
+					"c"
 				],
 				[
-					"o",
 					"c",
-					"o",
-					"p-u",
-					"p-r",
-					"p-d",
-					"p-l"
+					"c",
+					"c",
+					"c",
+					"c"
 				],
 				[
-					"o",
 					"c",
-					"o",
-					"p-u",
-					"p-r",
-					"p-d",
-					"p-l"
-				],
-				[
-					"o",
 					"c",
-					"o",
-					"p-u",
-					"p-r",
-					"p-d",
-					"p-l"
-				],
-				[
-					"o",
 					"c",
-					"o",
-					"g",
-					"p-r",
-					"p-d",
-					"p-l"
-				],
-				[
-					"o",
 					"c",
-					"o",
-					"g",
-					"p-r",
-					"p-d",
-					"p-l"
-				],
-				[
-					"o",
-					"c",
-					"o",
-					"g",
-					"p-r",
-					"p-d",
-					"p-l"
-				],
-				[
-					"o",
-					"c",
-					"o",
-					"g",
-					"p-r",
-					"p-d",
-					"p-l"
-				],
-				[
-					"o",
-					"c",
-					"o",
-					"g",
-					"p-r",
-					"p-d",
-					"p-l"
-				],
-				[
-					"o",
-					"c",
-					"o",
-					"g",
-					"p-r",
-					"p-d",
-					"p-l"
+					"c"
 				],
 			],
 			sequince: [
@@ -150,17 +75,25 @@ import axios from 'axios'
 
 	let size = 10
 
-	function runSimulation(trucks, blocks, goals, gridsize) {
-
-		axios.post('/data', {
+	function runSimulation(trucks, blocks, goals, gridsize, search) {
+		console.log("Ran call")
+		console.log(trucks, blocks, goals, gridsize)
+		axios.post('http://127.0.0.1:5000/search', {
 			
 			"trucks": trucks,
 			"blocks": blocks,
 			"goals": goals,
-			"gridsize": gridsize
+			"gridsize": gridsize,
+			"search": search
 		})
 		.then(function (response) {
 			console.log(response);
+			local_grid = response.data.grid
+			x = response.data.rootX
+			y = response.data.rootY
+			dir = response.data.direction
+			sequince = response.data.solution
+			run()
 		})
 		.catch(function (error) {
 			console.log(error);
@@ -217,7 +150,7 @@ import axios from 'axios'
 	async function run(){
 		for(let i = 0; i < sequince.length; i++){
 
-			await new Promise(r => setTimeout(r, 500));
+			await new Promise(r => setTimeout(r, 200));
 			// sleep for 1 second
 
 			switch (sequince[i]){
@@ -243,16 +176,27 @@ import axios from 'axios'
 	}
 
 	function pleaseWork(){
-		run();
+		runSimulation(1, numberOfBlocks, 1, gridSize, search)
+		//run();
 	}
 
-	let name = data.size;
+	let gridSize = 0;
+	let numberOfBlocks = 0;
+	let search = ""
+
+	let searchTypes = [
+		"Breadth First Search",
+		"Depth First Search",
+		"Depth Limit Search",
+		"Uniform Cost Search"
+	];
+
 </script>
 
-<h1 class="text-center text-6xl my-10">TRICK AGENT WORLD</h1>
+<h1 class="text-center text-6xl my-10">TRUCK AGENT WORLD</h1>
 
-<div class="flex justify-center">
-	<div class="w-96 border-1 border-black">
+<div class="grid justify-center">
+	<div class="border-1 grid grid-cols-3 border-black">
 		<div class="p-5 grid grid-cols-2 h-40 gap-3 ">
 			<div class="flex justify-center">
 				<button  class="w-36 py-5 my-5 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" on:click={pleaseWork}>Run</button>
@@ -261,13 +205,25 @@ import axios from 'axios'
 				<button  class="w-36 py-5 my-5 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" on:click={reset}>Reset</button>
 			</div>
 		</div>
-		<div>
-			<!-- input grid size text input -->
+		<div class="grid grid-cols-2">
 			<div class="grid justify-center">
-				<!-- label -->
 				<h1 for="gridSize" class="text-2xl text-center">Grid Size</h1>
-				<input type="text" class="w-36 py-5 my-5 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" bind:value={size}>
+				<input type="text" class="w-36 py-5 my-5 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" bind:value={gridSize}>
 			</div>
+			<div class="grid justify-center">
+				<h1 for="gridSize" class="text-2xl text-center"># of Blocks</h1>
+				<input type="text" class="w-36 py-5 my-5 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded" bind:value={numberOfBlocks}>
+			</div>
+		</div>
+		<div>
+			<h1 for="gridSize" class="text-2xl text-center mb-5">Select Search Type</h1>
+			<select bind:value={search}>
+				{#each searchTypes as s}
+					<option value={s}>
+						{s}
+					</option>
+				{/each}
+			</select>
 		</div>
 	</div>
 	<div>
